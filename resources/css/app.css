@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .show-entries {
+        @apply tw-flex tw-ml-4 tw-justify-center lg:tw-justify-start;
+    }
+
+    .search-column {
+        @apply tw-flex tw-mt-3 lg:tw-mt-[-45px] tw-mb-5 tw-justify-center lg:tw-justify-start;
+    }
+
+    .btn-modal {
+        @apply tw-fixed tw-right-7 tw-bottom-12 tw-w-14 tw-h-14 tw-shadow-2xl tw-rounded-full tw-bg-blue-500 tw-z-40 tw-text-white hover:tw-bg-blue-900 hover:tw-border-blue-600;
+    }
+}
+
+@layer utilities {
+    table { 
+        @apply tw-table-fixed tw-w-full;
+    }
+
+    table > thead > tr > th {
+        @apply tw-p-4 tw-bg-gray-100;
+    }
+
+    table > tbody > tr > td {
+        @apply tw-p-4 tw-border-b tw-border-gray-100;
+    }
+
+    table > tbody {
+        @apply tw-text-black;
+    }
+
+    .card-body > h3 {
+        @apply tw-text-base tw-text-black tw-ml-4 tw-mb-5;
+    }
+
+    .show-entries > p.show-entries-show {
+        @apply tw-mt-1 tw-mr-1 tw-text-gray-800;
+    }
+
+    .show-entries > p.show-entries-entries {
+        @apply tw-mt-1 tw-ml-1 tw-text-gray-800;
+    }
+
+    .show-entries > select {
+        @apply tw-rounded-lg tw-border tw-border-gray-200;
+    }
+
+    .search-column > p {
+        @apply tw-mt-1 tw-mr-1 tw-ml-0 lg:tw-ml-auto tw-text-gray-800;
+    }
+
+    .search-column > input {
+        @apply tw-rounded-lg tw-border tw-w-2/3 lg:tw-w-1/4 tw-border-gray-200 tw-mr-4;
+    }
+
+    .main-content {
+        @apply tw-px-0
+    }
+
+    .card { 
+        @apply tw-rounded-none lg:tw-rounded-lg tw-shadow-md tw-shadow-gray-300
+    }
+
+    .section-body {
+        @apply tw-mt-[-10px];
+    }
+
+    input.form-control {
+        @apply tw-border tw-border-gray-200 tw-rounded-lg tw-text-sm;
+    }
+
+    select.form-control {
+        @apply tw-rounded-lg;
+    }
+
+    textarea.form-control {
+        @apply tw-rounded-lg;
+    }
+
+    .navbar.navbar-expand-lg.main-navbar {
+        @apply tw-px-0 lg:tw-px-5
+    }
+}
