@@ -10,7 +10,7 @@
                     <div class="row tw-px-7">
                         <div class="col-lg-5">
                             <div class="form-group">
-                                <label for="name_controller">Nama Controller <br><span
+                                <label for="name_controller">Nama Controller<br><span
                                         class="tw-text-gray-600 tw-font-normal">Ex:
                                         data-barang.data-barang</span></label>
                                 <input type="text" class="form-control tw-rounded-lg" name="name_controller"
@@ -77,6 +77,10 @@
                                             <option value="text">Type Text</option>
                                             <option value="number">Type Number</option>
                                             <option value="date">Type Date</option>
+                                            <option value="datetime-local">Type DateTime Local</option>
+                                            <option value="time">Type Time</option>
+                                            <option value="checkbox">Type Checkbox</option>
+                                            <option value="file">Type File</option>
                                             <option value="select option">Select Option</option>
                                             <option value="textarea">Textarea</option>
                                         </select>
@@ -98,13 +102,12 @@
                         </table>
                     </div>
                     <div class="tw-float-right tw-mr-10">
-                        <button class="btn btn-lg btn-outline-primary mt-4" wire:click='generateSyntax()'>Auto
-                            Generate</button>
+                        <button class="btn btn-lg btn-outline-primary mt-4" wire:click='addRow'>Add Fields</button>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="btn-modal" wire:click='addRow'>
+        <button class="btn-modal" wire:click='generateSyntax()'>
             <i class="far fa-plus"></i>
         </button>
 
@@ -115,9 +118,11 @@
                 @if($commandSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $commandSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-bash" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $commandSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
             </div>
         </div>
@@ -129,9 +134,11 @@
                 @if($routeWebSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $routeWebSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $routeWebSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
 
                 <h4 class="tw-text-black tw-text-lg mt-5"><b>Routes</b> ==> <span
@@ -139,9 +146,11 @@
                 @if($routeApiSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $routeApiSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $routeApiSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
             </div>
         </div>
@@ -153,9 +162,11 @@
                 @if($modelSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $modelSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $modelSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
             </div>
         </div>
@@ -166,9 +177,11 @@
                 @if($migrationSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $migrationSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $migrationSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
             </div>
         </div>
@@ -180,9 +193,11 @@
                 @if($seederSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $seederSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $seederSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
 
                 <h4 class="tw-text-black tw-text-lg mt-5"><b>DatabaseSeeeder</b> ==> <span
@@ -190,9 +205,11 @@
                 @if($dbSeederSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $dbSeederSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $dbSeederSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
             </div>
         </div>
@@ -204,9 +221,11 @@
                 @if($controllerLivewireSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $controllerLivewireSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $controllerLivewireSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
             </div>
         </div>
@@ -218,9 +237,11 @@
                 @if($controllerAPISyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $controllerAPISyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $controllerAPISyntax }}</code>
+                    </pre>
+                </div>
                 @endif
             </div>
         </div>
@@ -233,9 +254,11 @@
                 @if($viewSyntax == NULL)
 
                 @else
-                <pre class="tw-bg-gray-50 tw-px-5 tw-mt-5 tw-rounded-lg">
-                    <code style="white-space: pre-wrap; tab-size: 4;">{{ $viewSyntax }}</code>
-                </pre>
+                <div wire:ignore.self>
+                    <pre>
+                        <code class="language-html" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $viewSyntax }}</code>
+                    </pre>
+                </div>
                 @endif
             </div>
         </div>

@@ -16,11 +16,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
     </style>
+    <link rel="stylesheet" href="{{ asset('assets/prism/themes/prism-holi-theme.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 
-<body class="layout-3" style="font-family: 'Inter', sans-serif;">
+<body class="layout-3" style="font-family: 'Inter', sans-serif;" data-prismjs-copy-timeout="500">
     <div id="app">
         <div class="main-wrapper container">
             <div class="navbar-bg"></div>
@@ -106,8 +107,15 @@
         window.onbeforeunload = function () {
             window.scrollTo(5, 75);
         };
-
     </script>
+    <script>
+        document.addEventListener('livewire:load', function () {
+            window.addEventListener('highlight-code', () => {
+                Prism.highlightAll();
+            });
+        });
+    </script>
+    <script src="{{ asset('assets/prism/prism.js') }}"></script>
     <script src="{{ asset('midragon/select2/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>

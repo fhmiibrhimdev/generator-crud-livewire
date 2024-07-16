@@ -1,0 +1,165 @@
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #d6e7ff !important;
+    background: #030314 !important;
+    text-shadow: none !important;
+    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
+    font-size: 1em !important;
+    line-height: 1.5 !important;
+    letter-spacing: 0.2px !important;
+    white-space: pre !important;
+    word-spacing: normal !important;
+    word-break: normal !important;
+    word-wrap: normal !important;
+    text-align: left !important;
+    -moz-tab-size: 4 !important;
+    -o-tab-size: 4 !important;
+    tab-size: 4 !important;
+    -webkit-hyphens: none !important;
+    -moz-hyphens: none !important;
+    -ms-hyphens: none !important;
+    hyphens: none !important;
+}
+
+pre[class*="language-"]::-moz-selection,
+pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection,
+code[class*="language-"] ::-moz-selection,
+pre[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+code[class*="language-"] ::selection {
+    color: inherit !important;
+    background: #1d3b54 !important;
+    text-shadow: none !important;
+}
+
+pre[class*="language-"] {
+    border: 1px solid #2a4555 !important;
+    border-radius: 5px !important;
+    padding: 1.5em 1em !important;
+    margin: 1em 0 !important;
+    overflow: auto !important;
+}
+
+:not(pre) > code[class*="language-"] {
+    color: #f0f6f6 !important;
+    background: #2a4555 !important;
+    padding: 0.2em 0.3em !important;
+    border-radius: 0.2em !important;
+    box-decoration-break: clone !important;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #446e69 !important;
+}
+
+.token.punctuation {
+    color: #d6b007 !important;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #d6e7ff !important;
+}
+
+.token.selector,
+.token.attr-name,
+.token.builtin,
+.token.inserted {
+    color: #e60067 !important;
+}
+
+.token.string,
+.token.char {
+    color: #49c6ec !important;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #ec8e01 !important;
+    background: transparent !important;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #0fe468 !important;
+}
+
+.token.function,
+.token.class-name {
+    color: #78f3e9 !important;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #d6e7ff !important;
+}
+div.code-toolbar {
+    position: relative;
+}
+div.code-toolbar > .toolbar {
+    position: absolute;
+    z-index: 10;
+    top: 0.3em;
+    right: 0.2em;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+div.code-toolbar:hover > .toolbar {
+    opacity: 1;
+}
+div.code-toolbar:focus-within > .toolbar {
+    opacity: 1;
+}
+div.code-toolbar > .toolbar > .toolbar-item {
+    display: inline-block;
+}
+div.code-toolbar > .toolbar > .toolbar-item > a {
+    cursor: pointer;
+}
+div.code-toolbar > .toolbar > .toolbar-item > button {
+    background: 0 0;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    overflow: visible;
+    padding: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+div.code-toolbar > .toolbar > .toolbar-item > a,
+div.code-toolbar > .toolbar > .toolbar-item > button,
+div.code-toolbar > .toolbar > .toolbar-item > span {
+    color: #bbb;
+    font-size: 0.8em;
+    padding: 0 0.5em;
+    background: #f5f2f0;
+    background: rgba(224, 224, 224, 0.2);
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
+    border-radius: 0.5em;
+}
+div.code-toolbar > .toolbar > .toolbar-item > a:focus,
+div.code-toolbar > .toolbar > .toolbar-item > a:hover,
+div.code-toolbar > .toolbar > .toolbar-item > button:focus,
+div.code-toolbar > .toolbar > .toolbar-item > button:hover,
+div.code-toolbar > .toolbar > .toolbar-item > span:focus,
+div.code-toolbar > .toolbar > .toolbar-item > span:hover {
+    color: inherit;
+    text-decoration: none;
+}

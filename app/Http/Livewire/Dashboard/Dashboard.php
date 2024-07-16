@@ -12,6 +12,38 @@ class Dashboard extends Component
     use LivewireAlert;
     use WithPagination;
 
+    // public $rows = [
+    //     [
+    //         "judul" => "Tanggal",
+    //         "nama_data" => "tanggal",
+    //         "element" => "date",
+    //         "validator" => "required",
+    //     ],
+    //     [
+    //         "judul" => "Nama Barang",
+    //         "nama_data" => "nama_barang",
+    //         "element" => "text",
+    //         "validator" => "required",
+    //     ],
+    //     [
+    //         "judul" => "Quantity",
+    //         "nama_data" => "qty",
+    //         "element" => "number",
+    //         "validator" => "required",
+    //     ],
+    //     [
+    //         "judul" => "Status",
+    //         "nama_data" => "status",
+    //         "element" => "select option",
+    //         "validator" => "required",
+    //     ],
+    //     [
+    //         "judul" => "Deskripsi",
+    //         "nama_data" => "deskripsi",
+    //         "element" => "textarea",
+    //         "validator" => "required",
+    //     ],
+    // ];
     public $rows = [];
     public $parts = [];
     public $name_model, $name_controller, $element, $validator, $timestamps;
@@ -39,7 +71,11 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->timestamps = 'yes';
+        // $this->name_controller = 'stok-masuk.stok-masuk';
+        // $this->name_model = 'StokMasuk';
+        $this->name_controller = '';
+        $this->name_model = '';
+        $this->timestamps = 'no';
         $this->statusGenerate = 0;
     }
 
@@ -88,6 +124,8 @@ class Dashboard extends Component
         $this->generateControllerLivewire();
         $this->generateControllerAPI();
         $this->generateView();
+
+        $this->dispatchBrowserEvent('highlight-code');
 
         $this->alert('success', 'Success', [
             'position'          => 'center',
@@ -207,8 +245,8 @@ $syntax .= "        });
 
 namespace Database\Seeders;
 
+use App\Models\\$this->name_model;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class {$this->name_model}Seeder extends Seeder
@@ -233,7 +271,7 @@ for ($i=1; $i < 5; $i++) {
 
 $syntax .= "        ];
 
-        DB::table('{$this->tableName}')->insert(\$data);
+        $this->name_model::insert(\$data);
     }
 }";
         $this->seederSyntax = $syntax;
@@ -257,18 +295,18 @@ $syntax .= "        ];
 "
 <?php
 
-namespace App\Http\Livewire\\$this->nameSpace1;
+namespace App\Livewire\\$this->nameSpace1;
 
 use App\Models\\$this->name_model as Models$this->name_model;
+use Livewire\Attributes\Title;
 use Livewire\Component;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 
 class $this->name_model extends Component
 {
-    use LivewireAlert;
     use WithPagination;
+    #[Title('$this->titleView')]
 
     protected \$listeners = [
         'delete'
@@ -281,22 +319,37 @@ foreach ($this->rows as $index => $row) {
 }
 $syntax .= "    ];
 
-    protected \$paginationTheme = 'bootstrap';
+    public \$lengthData = 25;
+    public \$searchTerm;
+    public \$previousSearchTerm = '';
+    public \$isEditing = false;
 
-    public \$search;
-    public \$lengthData  = 10;
-    public \$updateMode  = false;
-    public \$idRemoved   = NULL;
-    public \$dataId      = NULL;
+    public \$dataId;
 
-" . implode("\n", array_map(function($row) {
-        return "    public $" . str_replace('-', '_', $row['nama_data']) . ";";
-    }, $this->rows)) . "
+    public " . implode(', ', array_map(function($row) {
+        return "\$" . str_replace('-', '_', $row['nama_data']);
+    }, $this->rows)) . ";
+
+    public function mount()
+    {
+";
+foreach ($this->rows as $index => $row) {
+    if ( $row['element'] == "date" || $row['element'] == "datetime-local")
+    {
+        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = date('Y-m-d');\n";
+    } else if ( $row['element'] == "select option" )
+    {
+        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = 'opsi1';\n";
+    } else {
+        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = '';\n";
+    }
+}
+$syntax .="    }
 
     public function render()
     {
-        \$search     = '%'.\$this->search.'%';
-        \$lengthData = \$this->lengthData;
+        \$this->searchResetPage();
+        \$search = '%'.\$this->searchTerm.'%';
 
         \$data = Models$this->name_model::select('$this->tableName.*')
                 ->where(function (\$query) use (\$search) {
@@ -311,64 +364,9 @@ foreach ($this->rows as $index => $row) {
 }
 $syntax .= "                })
                 ->orderBy('id', 'ASC')
-                ->paginate(\$lengthData);
+                ->paginate(\$this->lengthData);
 
-        return view('livewire.$parts[0].$parts[1]', compact('data'))
-        ->extends('layouts.apps', ['title' => '$this->titleView']);
-    }
-
-    public function mount()
-    {
-";
-foreach ($this->rows as $index => $row) {
-    if ( $row['element'] == "date" )
-    {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = date('Y-m-d');\n";
-    } else if ( $row['element'] == "select option" )
-    {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = 'opsi1';\n";
-    } else {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = '';\n";
-    }
-}
-$syntax .="    }
-    
-    private function resetInputFields()
-    {
-";
-foreach ($this->rows as $index => $row) {
-    if ( $row['element'] == "date" )
-    {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = date('Y-m-d');\n";
-    } else if ( $row['element'] == "select option" )
-    {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = 'opsi1';\n";
-    } else {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = '';\n";
-    }
-}
-$syntax .="    }
-
-    public function cancel()
-    {
-        \$this->updateMode       = false;
-        \$this->resetInputFields();
-    }
-
-    private function alertShow(\$type, \$title, \$text, \$onConfirmed, \$showCancelButton)
-    {
-        \$this->alert(\$type, \$title, [
-            'position'          => 'center',
-            'timer'             => '3000',
-            'toast'             => false,
-            'text'              => \$text,
-            'showConfirmButton' => true,
-            'onConfirmed'       => \$onConfirmed,
-            'showCancelButton'  => \$showCancelButton,
-            'onDismissed'       => '',
-        ]);
-        \$this->resetInputFields();
-        \$this->emit('dataStore');
+        return view('livewire.$parts[0].$parts[1]', compact('data'));
     }
 
     public function store()
@@ -382,18 +380,12 @@ foreach ($this->rows as $index => $row) {
 }
 $syntax .= "        ]);
 
-        \$this->alertShow(
-            'success', 
-            'Berhasil', 
-            'Data berhasil ditambahkan', 
-            '', 
-            false
-        );
+        \$this->dispatchAlert('success', 'Success!', 'Data created successfully.');
     }
 
     public function edit(\$id)
     {
-        \$this->updateMode       = true;
+        \$this->isEditing        = true;
         \$data = Models$this->name_model::where('id', \$id)->first();
         \$this->dataId           = \$id;
 ";
@@ -414,38 +406,78 @@ foreach ($this->rows as $index => $row) {
     $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => \$this->$row[nama_data],\n";
 }
 $syntax .= "            ]);
-            \$this->alertShow(
-                'success', 
-                'Berhasil', 
-                'Data berhasil diubah', 
-                '', 
-                false
-            );
+
+            \$this->dispatchAlert('success', 'Success!', 'Data updated successfully.');
+            \$this->dataId = null;
         }
     }
 
     public function deleteConfirm(\$id)
     {
-        \$this->idRemoved = \$id;
-        \$this->alertShow(
-            'warning', 
-            'Apa anda yakin?', 
-            'Jika anda menghapus data tersebut, data tidak bisa dikembalikan!', 
-            'delete', 
-            true
-        );
+        \$this->dataId = \$id;
+        \$this->dispatch('swal:confirm', [
+            'type'      => 'warning',  
+            'message'   => 'Are you sure?', 
+            'text'      => 'If you delete the data, it cannot be restored!'
+        ]);
     }
 
     public function delete()
     {
-        Models$this->name_model::findOrFail(\$this->idRemoved)->delete();
-        \$this->alertShow(
-            'success', 
-            'Berhasil', 
-            'Data berhasil dihapus', 
-            '', 
-            false
-        );
+        Models$this->name_model::findOrFail(\$this->dataId)->delete();
+        \$this->dispatchAlert('success', 'Success!', 'Data deleted successfully.');
+    }
+
+    public function updatingLengthData()
+    {
+        \$this->resetPage();
+    }
+
+    private function searchResetPage()
+    {
+        if (\$this->searchTerm !== \$this->previousSearchTerm) {
+            \$this->resetPage();
+        }
+    
+        \$this->previousSearchTerm = \$this->searchTerm;
+    }
+
+    private function dispatchAlert(\$type, \$message, \$text)
+    {
+        \$this->dispatch('swal:modal', [
+            'type'      => \$type,  
+            'message'   => \$message, 
+            'text'      => \$text
+        ]);
+
+        \$this->resetInputFields();
+    }
+
+    public function isEditingMode(\$mode)
+    {
+        \$this->isEditing = \$mode;
+    }
+    
+    private function resetInputFields()
+    {
+";
+foreach ($this->rows as $index => $row) {
+    if ( $row['element'] == "date" || $row['element'] == "datetime-local" )
+    {
+        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = date('Y-m-d');\n";
+    } else if ( $row['element'] == "select option" )
+    {
+        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = 'opsi1';\n";
+    } else {
+        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = '';\n";
+    }
+}
+$syntax .="    }
+
+    public function cancel()
+    {
+        \$this->isEditing       = false;
+        \$this->resetInputFields();
     }
 }";
 
@@ -555,52 +587,38 @@ class BlogController extends Controller
         $syntax = 
 "
 <div>
-    <section class='section'>
-        <div class='section-header tw-rounded-none lg:tw-rounded-lg tw-shadow-md tw-shadow-gray-300 px-4'>
-            <h1 class='tw-text-lg mb-1'>$this->titleView</h1>
+    <section class='section custom-section'>
+        <div class='section-header'>
+            <h1>$this->titleView</h1>
         </div>
-
-        @if (\$errors->any())
-        <script>
-            Swal.fire(
-                'error',
-                'Ada yang error',
-                'error'
-            )
-        </script>
-        @endif
 
         <div class='section-body'>
             <div class='card'>
-                <div class='card-body px-0'>
-                    <h3>Tabel $this->titleView</h3>
+                <h3>Tabel $this->titleView</h3>
+                <div class='card-body'>
                     <div class='show-entries'>
                         <p class='show-entries-show'>Show</p>
-                        <select wire:model='lengthData' id='length-data'>
-                            <option value='1'>1</option>
-                            <option value='5'>5</option>
-                            <option value='10'>10</option>
+                        <select wire:model.live='lengthData' id='length-data'>
                             <option value='25'>25</option>
                             <option value='50'>50</option>
                             <option value='100'>100</option>
+                            <option value='250'>250</option>
+                            <option value='500'>500</option>
                         </select>
                         <p class='show-entries-entries'>Entries</p>
                     </div>
                     <div class='search-column'>
-                        <p>Search: </p>
-                        <input type='search' wire:model.debounce.750ms='search' id='search-data' placeholder='Search here...'>
+                        <p>Search: </p><input type='search' wire:model.live.debounce.750ms='searchTerm' id='search-data' placeholder='Search here...' class='form-control'>
                     </div>
                     <div class='table-responsive tw-max-h-96'>
                         <table>
                             <thead class='tw-sticky tw-top-0'>
                                 <tr class='tw-text-gray-700'>
-                                    <th width='15%' class='text-center'>No</th>
+                                    <th width='6%' class='text-center'>No</th>
 " . implode("\n", array_map(function($row) {
     return "                                    <th>$row[judul]</th>";
 }, $this->rows)) . "
-                                    <th class='text-center'>
-                                        <i class='fas fa-cog'></i>
-                                    </th>
+                                    <th class='text-center'><i class='fas fa-cog'></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -611,42 +629,39 @@ class BlogController extends Controller
     return "                                    <td class='text-left'>{{ \$row->$row[nama_data] }}</td>";
 }, $this->rows)) . "
                                     <td>
-                                        <button class='btn btn-warning' wire:click='edit({{ \$row->id }})'
-                                            data-toggle='modal' data-target='#ubahDataModal'>
+                                        <button wire:click.prevent='edit({{ \$row->id }})' class='btn btn-primary' data-toggle='modal' data-target='#formDataModal'>
                                             <i class='fas fa-edit'></i>
                                         </button>
-                                        <button class='btn btn-danger'
-                                            wire:click.prevent='deleteConfirm({{ \$row->id }})'>
+                                        <button wire:click.prevent='deleteConfirm({{ \$row->id }})' class='btn btn-danger'>
                                             <i class='fas fa-trash'></i>
                                         </button>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td class='text-center' colspan='$this->count'>No data available in the table</td>
+                                    <td colspan='$this->count' class='text-center'>No data available in the table</td>
                                 </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
-                    <div class='p-3 table-responsive tw-mb-[-15px]'>
+                    <div class='mt-5 px-3'>
                         {{ \$data->links() }}
                     </div>
                 </div>
             </div>
         </div>
-        <button class='btn-modal' data-toggle='modal' data-target='#tambahDataModal'>
+        <button wire:click.prevent='isEditingMode(false)' class='btn-modal' data-toggle='modal' data-backdrop='static' data-keyboard='false' data-target='#formDataModal'>
             <i class='far fa-plus'></i>
         </button>
     </section>
 
-    <div class='modal fade' wire:ignore.self id='tambahDataModal' aria-labelledby='tambahDataModalLabel'
-        aria-hidden='true'>
+    <div class='modal fade' wire:ignore.self id='formDataModal' aria-labelledby='formDataModalLabel' aria-hidden='true'>
         <div class='modal-dialog'>
             <div class='modal-content'>
                 <div class='modal-header'>
-                    <h5 class='modal-title' id='tambahDataModalLabel'>Tambah Data</h5>
-                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <h5 class='modal-title' id='formDataModalLabel'>{{ \$isEditing ? 'Edit Data' : 'Add Data' }}</h5>
+                    <button type='button' wire:click='cancel()' class='close' data-dismiss='modal' aria-label='Close'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
                 </div>
@@ -655,7 +670,7 @@ class BlogController extends Controller
 ";
 foreach ($this->rows as $index => $row) {
     
-    if( $row['element'] == "text" || $row['element'] == "number" || $row['element'] == "date" )
+    if( $row['element'] == "text" || $row['element'] == "number" || $row['element'] == "date" || $row['element'] == "datetime-local" || $row['element'] == "time" || $row['element'] == "checkbox" || $row['element'] == "file" )
     {
         $syntax .= "                        <div class='form-group'>
                             <label for='$row[nama_data]'>$row[judul]</label>
@@ -666,7 +681,7 @@ foreach ($this->rows as $index => $row) {
     {
         $syntax .= "                        <div class='form-group'>
                             <label for='$row[nama_data]'>$row[judul]</label>
-                            <select wire:model='$row[nama_data]' id='$row[nama_data]' class='form-control'>
+                            <select wire:model='$row[nama_data]' id='$row[nama_data]' class='form-control select2'>
                                 <option value='opsi1'>Opsi 1</option>
                                 <option value='opsi2'>Opsi 2</option>
                                 <option value='opsi3'>Opsi 3</option>
@@ -684,66 +699,8 @@ foreach ($this->rows as $index => $row) {
 }
 $syntax .= "                    </div>
                     <div class='modal-footer'>
-                        <button type='button' class='btn btn-secondary tw-bg-gray-300'
-                            data-dismiss='modal'>Close</button>
-                        <button type='submit' wire:click.prevent='store()' wire:loading.attr='disabled'
-                            class='btn btn-primary tw-bg-blue-500'>Save Data</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class='modal fade' wire:ignore.self id='ubahDataModal' aria-labelledby='ubahDataModalLabel' aria-hidden='true'
-        data-keyboard='false' data-backdrop='static'>
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class='modal-header'>
-                    <h5 class='modal-title' id='ubahDataModalLabel'>Edit Data</h5>
-                    <button type='button' wire:click.prevent='cancel()' class='close' data-dismiss='modal'
-                        aria-label='Close'>
-                        <span aria-hidden='true'>&times;</span>
-                    </button>
-                </div>
-                <form>
-                    <div class='modal-body'>
-                        <input type='hidden' wire:model='dataId'>
-";
-foreach ($this->rows as $index => $row) {
-    
-    if( $row['element'] == "text" || $row['element'] == "number" || $row['element'] == "date" )
-    {
-        $syntax .= "                        <div class='form-group'>
-                            <label for='$row[nama_data]'>$row[judul]</label>
-                            <input type='$row[element]' wire:model='$row[nama_data]' id='$row[nama_data]' class='form-control'>
-                            @error('$row[nama_data]') <span class='text-danger'>{{ \$message }}</span> @enderror
-                        </div>\n";
-    } else if ( $row['element'] == "select option" )
-    {
-        $syntax .= "                        <div class='form-group'>
-                            <label for='$row[nama_data]'>$row[judul]</label>
-                            <select wire:model='$row[nama_data]' id='$row[nama_data]' class='form-control'>
-                                <option value='opsi1'>Opsi 1</option>
-                                <option value='opsi2'>Opsi 2</option>
-                                <option value='opsi3'>Opsi 3</option>
-                            </select>
-                            @error('$row[nama_data]') <span class='text-danger'>{{ \$message }}</span> @enderror
-                        </div>\n";
-    } else if ( $row['element'] == "textarea" )
-    {
-        $syntax .= "                        <div class='form-group'>
-                            <label for='$row[nama_data]'>$row[judul]</label>
-                            <textarea wire:model='$row[nama_data]' id='$row[nama_data]' class='form-control'></textarea>
-                            @error('$row[nama_data]') <span class='text-danger'>{{ \$message }}</span> @enderror
-                        </div>\n";
-    }
-}
-$syntax .= "                    </div>
-                    <div class='modal-footer'>
-                        <button type='button' class='btn btn-secondary tw-bg-gray-300'
-                            data-dismiss='modal'>Close</button>
-                        <button type='submit' wire:click.prevent='update()' wire:loading.attr='disabled'
-                            class='btn btn-primary tw-bg-blue-500'>Save Changes</button>
+                        <button type='button' wire:click='cancel()' class='btn btn-secondary tw-bg-gray-300' data-dismiss='modal'>Close</button>
+                        <button type='submit' wire:click.prevent='{{ \$isEditing ? 'update()' : 'store()' }}' wire:loading.attr='disabled' class='btn btn-primary tw-bg-blue-500'>Save Data</button>
                     </div>
                 </form>
             </div>
@@ -752,7 +709,58 @@ $syntax .= "                    </div>
 </div>
 ";
 
-        $this->viewSyntax = $syntax;
+    // Check if there is a select option element in the rows
+    $hasSelectOption = false;
+    foreach ($this->rows as $row) {
+        if ($row['element'] == 'select option') {
+            $hasSelectOption = true;
+            break;
+        }
+    }
+
+    if ($hasSelectOption) {
+        $syntax .= "
+@push('general-css')
+<link href=\"{{ asset('assets/midragon/select2/select2.min.css') }}\" rel=\"stylesheet\" />
+@endpush
+
+@push('js-libraries')
+<script src=\"{{ asset('/assets/midragon/select2/select2.full.min.js') }}\"></script>
+@endpush
+
+@push('scripts')
+<script>
+    window.addEventListener('initSelect2', event => {
+        $(document).ready(function() {
+            $('.select2').select2();
+
+            $('.select2').on('change', function(e) {
+                var id = $(this).attr('id');
+                var data = $(this).select2(\"val\");
+                @this.set(id, data);
+            });
+        });
+    })
+</script>
+@endpush
+";
+    } else {
+        $syntax .= "
+@push('general-css')
+
+@endpush
+
+@push('js-libraries')
+
+@endpush
+
+@push('scripts')
+
+@endpush
+";
+    }
+
+    $this->viewSyntax = $syntax;
     }
 
 }
