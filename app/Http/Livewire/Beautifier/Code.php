@@ -42,7 +42,7 @@ class Code extends Component
             }
         }
 
-        $this->dispatchBrowserEvent('highlight-code');
+        $this->dispatch('highlight-code');
 
         return implode("\n", $beautifiedLines);
     }

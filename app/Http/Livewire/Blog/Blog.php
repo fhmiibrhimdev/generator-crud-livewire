@@ -39,20 +39,20 @@ class Blog extends Component
 
     public function render()
     {
-        $search     = '%'.$this->search.'%';
+        $search     = '%' . $this->search . '%';
         $lengthData = $this->lengthData;
 
         $data = ModelsBlog::where(function ($query) use ($search) {
-                    $query->where('tanggal', 'LIKE', $search);
-                    $query->orWhere('judul', 'LIKE', $search);
-                    $query->orWhere('deskripsi', 'LIKE', $search);
-                    $query->orWhere('status_publish', 'LIKE', $search);
-                })
-                ->orderBy('id', 'ASC')
-                ->paginate($lengthData);
+            $query->where('tanggal', 'LIKE', $search);
+            $query->orWhere('judul', 'LIKE', $search);
+            $query->orWhere('deskripsi', 'LIKE', $search);
+            $query->orWhere('status_publish', 'LIKE', $search);
+        })
+            ->orderBy('id', 'ASC')
+            ->paginate($lengthData);
 
         return view('livewire.blog.blog', compact('data'))
-        ->extends('layouts.apps', ['title' => 'Blog']);
+            ->extends('layouts.apps', ['title' => 'Blog']);
     }
 
     public function mount()
@@ -61,15 +61,15 @@ class Blog extends Component
         $this->judul            = '';
         $this->deskripsi        = '';
         $this->status_publish   = '';
-     }
-    
+    }
+
     private function resetInputFields()
     {
         $this->tanggal          = '';
         $this->judul            = '';
         $this->deskripsi        = '';
         $this->status_publish   = '';
-     }
+    }
 
     public function cancel()
     {
@@ -80,10 +80,10 @@ class Blog extends Component
     private function alertShow($type, $title, $text, $onConfirmed, $showCancelButton)
     {
         $this->alert($type, $title, [
-            'position'          => 'center',
-            'timer'             => '3000',
-            'toast'             => false,
-            'text'              => $text,
+            'position'  => 'center',
+            'timer'     => '3000',
+            'toast'        => false,
+            'text' => $text,
             'showConfirmButton' => true,
             'onConfirmed'       => $onConfirmed,
             'showCancelButton'  => $showCancelButton,
@@ -105,10 +105,10 @@ class Blog extends Component
         ]);
 
         $this->alertShow(
-            'success', 
-            'Berhasil', 
-            'Data berhasil ditambahkan', 
-            '', 
+            'success',
+            'Berhasil',
+            'Data berhasil ditambahkan',
+            '',
             false
         );
     }
@@ -128,8 +128,7 @@ class Blog extends Component
     {
         $this->validate();
 
-        if( $this->dataId )
-        {
+        if ($this->dataId) {
             ModelsBlog::findOrFail($this->dataId)->update([
                 'tanggal'          => $this->tanggal,
                 'judul'            => $this->judul,
@@ -137,10 +136,10 @@ class Blog extends Component
                 'status_publish'   => $this->status_publish,
             ]);
             $this->alertShow(
-                'success', 
-                'Berhasil', 
-                'Data berhasil diubah', 
-                '', 
+                'success',
+                'Berhasil',
+                'Data berhasil diubah',
+                '',
                 false
             );
         }
@@ -150,10 +149,10 @@ class Blog extends Component
     {
         $this->idRemoved = $id;
         $this->alertShow(
-            'warning', 
-            'Apa anda yakin?', 
-            'Jika anda menghapus data tersebut, data tidak bisa dikembalikan!', 
-            'delete', 
+            'warning',
+            'Apa anda yakin?',
+            'Jika anda menghapus data tersebut, data tidak bisa dikembalikan!',
+            'delete',
             true
         );
     }
@@ -162,10 +161,10 @@ class Blog extends Component
     {
         ModelsBlog::findOrFail($this->idRemoved)->delete();
         $this->alertShow(
-            'success', 
-            'Berhasil', 
-            'Data berhasil dihapus', 
-            '', 
+            'success',
+            'Berhasil',
+            'Data berhasil dihapus',
+            '',
             false
         );
     }

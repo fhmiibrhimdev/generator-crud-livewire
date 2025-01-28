@@ -53,20 +53,16 @@ class Dashboard extends Component
 
     public function render()
     {
-        if( Auth::user()->hasRole('admin') )
-        {
+        if (Auth::user()->hasRole('admin')) {
             return view('livewire.dashboard.dashboard-admin')
-            ->extends('layouts.apps', ['title' => 'Dashboard']);
-        } else if ( Auth::user()->hasRole('user') )
-        {
+                ->extends('layouts.apps', ['title' => 'Dashboard']);
+        } else if (Auth::user()->hasRole('user')) {
             return view('livewire.dashboard.dashboard-user')
-            ->extends('layouts.apps', ['title' => 'Dashboard']);
-        } else if ( Auth::user()->hasRole('developer') )
-        {
+                ->extends('layouts.apps', ['title' => 'Dashboard']);
+        } else if (Auth::user()->hasRole('developer')) {
             return view('livewire.dashboard.dashboard-developer')
-            ->extends('layouts.apps', ['title' => 'Dashboard']);
+                ->extends('layouts.apps', ['title' => 'Dashboard']);
         }
-
     }
 
     public function mount()
@@ -97,7 +93,7 @@ class Dashboard extends Component
     public function generateSyntax()
     {
         $this->statusGenerate = 1;
-        
+
         $nameModel      = $this->name_model; // BarangMasuk
         $nameController = $this->name_controller; // inventory.barang-masuk
 
@@ -113,7 +109,7 @@ class Dashboard extends Component
         $this->titleView  = preg_replace('/(?<=\\w)(?=[A-Z])/', ' ', $this->nameSpace2); // Barang Masuk
 
         $this->count = count($this->rows) + 2;
-        
+
         $this->generateCommand();
         $this->generateRouteWeb();
         $this->generateRouteApi();
@@ -125,7 +121,7 @@ class Dashboard extends Component
         $this->generateControllerAPI();
         $this->generateView();
 
-        $this->dispatchBrowserEvent('highlight-code');
+        $this->dispatch('highlight-code');
 
         $this->alert('success', 'Success', [
             'position'          => 'center',
@@ -138,7 +134,7 @@ class Dashboard extends Component
     }
 
     public function generateCommand()
-    {   
+    {
         $syntax = '
 // Controller Livewire
 php artisan make:livewire ' . $this->name_controller . '
@@ -147,11 +143,10 @@ php artisan make:livewire ' . $this->name_controller . '
 php artisan make:controller ' . $this->nameSpace2 . 'Controller --resource
 
 // Model
-php artisan make:model ' . $this->name_model. ' -m
+php artisan make:model ' . $this->name_model . ' -m
 
 // Seeder
-php artisan make:seeder ' . $this->nameSpace2 . 'Seeder'
-;
+php artisan make:seeder ' . $this->nameSpace2 . 'Seeder';
 
         $this->commandSyntax = $syntax;
     }
@@ -191,12 +186,12 @@ class ' . $this->name_model . ' extends Model
     use HasFactory;
     protected $table = "' . $this->tableName . '";
     protected $guarded = [];';
-if ( $this->timestamps == "no") {
-    $syntax .= '
+        if ($this->timestamps == "no") {
+            $syntax .= '
     
     public $timestamps = false;';
-}
-$syntax .= '
+        }
+        $syntax .= '
 }';
 
         $this->modelSyntax = $syntax;
@@ -218,13 +213,13 @@ class Create{$this->name_model}sTable extends Migration
         Schema::create('$this->tableName', function (Blueprint \$table) {
             \$table->id();
 ";
-foreach($this->rows as $row) {
-    $syntax .= "            \$table->text('$row[nama_data]');\n";
-}
-if ( $this->timestamps == "yes") {
-    $syntax .= "            \$table->timestamps();\n";
-}
-$syntax .= "        });
+        foreach ($this->rows as $row) {
+            $syntax .= "            \$table->text('$row[nama_data]');\n";
+        }
+        if ($this->timestamps == "yes") {
+            $syntax .= "            \$table->timestamps();\n";
+        }
+        $syntax .= "        });
     }
     
     public function down()
@@ -240,7 +235,7 @@ $syntax .= "        });
     public function generateSeeder()
     {
         $syntax =
-"
+            "
 <?php
 
 namespace Database\Seeders;
@@ -254,22 +249,21 @@ class {$this->name_model}Seeder extends Seeder
     public function run()
     {
         \$data = [";
-for ($i=1; $i < 5; $i++) { 
-    $syntax .= "\n"."            [\n";
-    foreach ($this->rows as $index => $row) {
-        if ( $row['element'] == "number" ) {
-            $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => '0',\n";
-        } else if ( $row['element'] == "date" ) {
-            $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => date('Y-m-d'),\n";
-        } else {
-            $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => '',\n";
+        for ($i = 1; $i < 5; $i++) {
+            $syntax .= "\n" . "            [\n";
+            foreach ($this->rows as $index => $row) {
+                if ($row['element'] == "number") {
+                    $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => '0',\n";
+                } else if ($row['element'] == "date") {
+                    $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => date('Y-m-d'),\n";
+                } else {
+                    $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => '',\n";
+                }
+            }
+            $syntax .= "            ],\n";
         }
-    }
-    $syntax .= "            ],\n";
 
-}
-
-$syntax .= "        ];
+        $syntax .= "        ];
 
         $this->name_model::insert(\$data);
     }
@@ -280,7 +274,7 @@ $syntax .= "        ];
     public function generateDbSeeder()
     {
         $syntax =
-"
+            "
 \$this->call([
     ...
     {$this->name_model}Seeder::class
@@ -291,8 +285,8 @@ $syntax .= "        ];
     public function generateControllerLivewire()
     {
         $parts = $this->parts;
-        $syntax = 
-"
+        $syntax =
+            "
 <?php
 
 namespace App\Livewire\\$this->nameSpace1;
@@ -314,10 +308,10 @@ class $this->name_model extends Component
 
     protected \$rules = [
 ";
-foreach ($this->rows as $index => $row) {
-    $syntax .= "        '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => '$row[validator]',\n";
-}
-$syntax .= "    ];
+        foreach ($this->rows as $index => $row) {
+            $syntax .= "        '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => '$row[validator]',\n";
+        }
+        $syntax .= "    ];
 
     public \$lengthData = 25;
     public \$searchTerm;
@@ -326,25 +320,23 @@ $syntax .= "    ];
 
     public \$dataId;
 
-    public " . implode(', ', array_map(function($row) {
-        return "\$" . str_replace('-', '_', $row['nama_data']);
-    }, $this->rows)) . ";
+    public " . implode(', ', array_map(function ($row) {
+            return "\$" . str_replace('-', '_', $row['nama_data']);
+        }, $this->rows)) . ";
 
     public function mount()
     {
 ";
-foreach ($this->rows as $index => $row) {
-    if ( $row['element'] == "date" || $row['element'] == "datetime-local")
-    {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = date('Y-m-d');\n";
-    } else if ( $row['element'] == "select option" )
-    {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = 'opsi1';\n";
-    } else {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = '';\n";
-    }
-}
-$syntax .="    }
+        foreach ($this->rows as $index => $row) {
+            if ($row['element'] == "date" || $row['element'] == "datetime-local") {
+                $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = date('Y-m-d');\n";
+            } else if ($row['element'] == "select option") {
+                $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = 'opsi1';\n";
+            } else {
+                $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = '';\n";
+            }
+        }
+        $syntax .= "    }
 
     public function render()
     {
@@ -353,16 +345,15 @@ $syntax .="    }
 
         \$data = Models$this->name_model::select('$this->tableName.*')
                 ->where(function (\$query) use (\$search) {
-"; 
-foreach ($this->rows as $index => $row) {
-    if( $index == 0 )
-    {
-        $syntax .= "                    \$query->where('$row[nama_data]', 'LIKE', \$search);\n";
-    } else  {
-        $syntax .= "                    \$query->orWhere('$row[nama_data]', 'LIKE', \$search);\n";
-    }
-}
-$syntax .= "                })
+";
+        foreach ($this->rows as $index => $row) {
+            if ($index == 0) {
+                $syntax .= "                    \$query->where('$row[nama_data]', 'LIKE', \$search);\n";
+            } else {
+                $syntax .= "                    \$query->orWhere('$row[nama_data]', 'LIKE', \$search);\n";
+            }
+        }
+        $syntax .= "                })
                 ->orderBy('id', 'ASC')
                 ->paginate(\$this->lengthData);
 
@@ -375,10 +366,10 @@ $syntax .= "                })
 
         Models$this->name_model::create([
 ";
-foreach ($this->rows as $index => $row) {
-    $syntax .= "            '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => \$this->$row[nama_data],\n";
-}
-$syntax .= "        ]);
+        foreach ($this->rows as $index => $row) {
+            $syntax .= "            '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => \$this->$row[nama_data],\n";
+        }
+        $syntax .= "        ]);
 
         \$this->dispatchAlert('success', 'Success!', 'Data created successfully.');
     }
@@ -389,10 +380,10 @@ $syntax .= "        ]);
         \$data = Models$this->name_model::where('id', \$id)->first();
         \$this->dataId           = \$id;
 ";
-foreach ($this->rows as $index => $row) {
-    $syntax .= "        \$this->$row[nama_data]" . str_repeat(" ", 16 - strlen($row['nama_data'])) . " = \$data->$row[nama_data];\n";
-}
-$syntax .= "    }
+        foreach ($this->rows as $index => $row) {
+            $syntax .= "        \$this->$row[nama_data]" . str_repeat(" ", 16 - strlen($row['nama_data'])) . " = \$data->$row[nama_data];\n";
+        }
+        $syntax .= "    }
 
     public function update()
     {
@@ -402,10 +393,10 @@ $syntax .= "    }
         {
             Models$this->name_model::findOrFail(\$this->dataId)->update([
 ";
-foreach ($this->rows as $index => $row) {
-    $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => \$this->$row[nama_data],\n";
-}
-$syntax .= "            ]);
+        foreach ($this->rows as $index => $row) {
+            $syntax .= "                '" . $row['nama_data'] . "' " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " => \$this->$row[nama_data],\n";
+        }
+        $syntax .= "            ]);
 
             \$this->dispatchAlert('success', 'Success!', 'Data updated successfully.');
             \$this->dataId = null;
@@ -461,18 +452,16 @@ $syntax .= "            ]);
     private function resetInputFields()
     {
 ";
-foreach ($this->rows as $index => $row) {
-    if ( $row['element'] == "date" || $row['element'] == "datetime-local" )
-    {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = date('Y-m-d');\n";
-    } else if ( $row['element'] == "select option" )
-    {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = 'opsi1';\n";
-    } else {
-        $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = '';\n";
-    }
-}
-$syntax .="    }
+        foreach ($this->rows as $index => $row) {
+            if ($row['element'] == "date" || $row['element'] == "datetime-local") {
+                $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = date('Y-m-d');\n";
+            } else if ($row['element'] == "select option") {
+                $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = 'opsi1';\n";
+            } else {
+                $syntax .= "        \$this->" . $row['nama_data'] . " " . str_repeat(" ", 18 - strlen($row['nama_data'])) . " = '';\n";
+            }
+        }
+        $syntax .= "    }
 
     public function cancel()
     {
@@ -486,8 +475,8 @@ $syntax .="    }
 
     public function generateControllerAPI()
     {
-        $syntax = 
-"
+        $syntax =
+            "
 <?php
 
 namespace App\Http\Controllers;
@@ -584,8 +573,8 @@ class BlogController extends Controller
 
     public function generateView()
     {
-        $syntax = 
-"
+        $syntax =
+            "
 <div>
     <section class='section custom-section'>
         <div class='section-header'>
@@ -615,9 +604,9 @@ class BlogController extends Controller
                             <thead class='tw-sticky tw-top-0'>
                                 <tr class='tw-text-gray-700'>
                                     <th width='6%' class='text-center'>No</th>
-" . implode("\n", array_map(function($row) {
-    return "                                    <th>$row[judul]</th>";
-}, $this->rows)) . "
+" . implode("\n", array_map(function ($row) {
+                return "                                    <th>$row[judul]</th>";
+            }, $this->rows)) . "
                                     <th class='text-center'><i class='fas fa-cog'></i></th>
                                 </tr>
                             </thead>
@@ -625,9 +614,9 @@ class BlogController extends Controller
                                 @forelse (\$data as \$row)
                                 <tr class='text-center'>
                                     <td>{{ \$loop->index + 1 }}</td>
-" . implode("\n", array_map(function($row) {
-    return "                                    <td class='text-left'>{{ \$row->$row[nama_data] }}</td>";
-}, $this->rows)) . "
+" . implode("\n", array_map(function ($row) {
+                return "                                    <td class='text-left'>{{ \$row->$row[nama_data] }}</td>";
+            }, $this->rows)) . "
                                     <td>
                                         <button wire:click.prevent='edit({{ \$row->id }})' class='btn btn-primary' data-toggle='modal' data-target='#formDataModal'>
                                             <i class='fas fa-edit'></i>
@@ -668,18 +657,16 @@ class BlogController extends Controller
                 <form>
                     <div class='modal-body'>
 ";
-foreach ($this->rows as $index => $row) {
-    
-    if( $row['element'] == "text" || $row['element'] == "number" || $row['element'] == "date" || $row['element'] == "datetime-local" || $row['element'] == "time" || $row['element'] == "checkbox" || $row['element'] == "file" )
-    {
-        $syntax .= "                        <div class='form-group'>
+        foreach ($this->rows as $index => $row) {
+
+            if ($row['element'] == "text" || $row['element'] == "number" || $row['element'] == "date" || $row['element'] == "datetime-local" || $row['element'] == "time" || $row['element'] == "checkbox" || $row['element'] == "file") {
+                $syntax .= "                        <div class='form-group'>
                             <label for='$row[nama_data]'>$row[judul]</label>
                             <input type='$row[element]' wire:model='$row[nama_data]' id='$row[nama_data]' class='form-control'>
                             @error('$row[nama_data]') <span class='text-danger'>{{ \$message }}</span> @enderror
                         </div>\n";
-    } else if ( $row['element'] == "select option" )
-    {
-        $syntax .= "                        <div class='form-group'>
+            } else if ($row['element'] == "select option") {
+                $syntax .= "                        <div class='form-group'>
                             <label for='$row[nama_data]'>$row[judul]</label>
                             <select wire:model='$row[nama_data]' id='$row[nama_data]' class='form-control select2'>
                                 <option value='opsi1'>Opsi 1</option>
@@ -688,16 +675,15 @@ foreach ($this->rows as $index => $row) {
                             </select>
                             @error('$row[nama_data]') <span class='text-danger'>{{ \$message }}</span> @enderror
                         </div>\n";
-    } else if ( $row['element'] == "textarea" )
-    {
-        $syntax .= "                        <div class='form-group'>
+            } else if ($row['element'] == "textarea") {
+                $syntax .= "                        <div class='form-group'>
                             <label for='$row[nama_data]'>$row[judul]</label>
                             <textarea wire:model='$row[nama_data]' id='$row[nama_data]' class='form-control' style='height: 100px !important;'></textarea>
                             @error('$row[nama_data]') <span class='text-danger'>{{ \$message }}</span> @enderror
                         </div>\n";
-    }
-}
-$syntax .= "                    </div>
+            }
+        }
+        $syntax .= "                    </div>
                     <div class='modal-footer'>
                         <button type='button' wire:click='cancel()' class='btn btn-secondary tw-bg-gray-300' data-dismiss='modal'>Close</button>
                         <button type='submit' wire:click.prevent='{{ \$isEditing ? 'update()' : 'store()' }}' wire:loading.attr='disabled' class='btn btn-primary tw-bg-blue-500'>Save Data</button>
@@ -709,17 +695,17 @@ $syntax .= "                    </div>
 </div>
 ";
 
-    // Check if there is a select option element in the rows
-    $hasSelectOption = false;
-    foreach ($this->rows as $row) {
-        if ($row['element'] == 'select option') {
-            $hasSelectOption = true;
-            break;
+        // Check if there is a select option element in the rows
+        $hasSelectOption = false;
+        foreach ($this->rows as $row) {
+            if ($row['element'] == 'select option') {
+                $hasSelectOption = true;
+                break;
+            }
         }
-    }
 
-    if ($hasSelectOption) {
-        $syntax .= "
+        if ($hasSelectOption) {
+            $syntax .= "
 @push('general-css')
 <link href=\"{{ asset('assets/midragon/select2/select2.min.css') }}\" rel=\"stylesheet\" />
 @endpush
@@ -744,8 +730,8 @@ $syntax .= "                    </div>
 </script>
 @endpush
 ";
-    } else {
-        $syntax .= "
+        } else {
+            $syntax .= "
 @push('general-css')
 
 @endpush
@@ -758,9 +744,8 @@ $syntax .= "                    </div>
 
 @endpush
 ";
-    }
+        }
 
-    $this->viewSyntax = $syntax;
+        $this->viewSyntax = $syntax;
     }
-
 }

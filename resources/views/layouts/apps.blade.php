@@ -12,10 +12,10 @@
     <link href="{{ asset('midragon/select2/select2.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/prism/themes/prism-holi-theme.css') }}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-    </style>
-    <link rel="stylesheet" href="{{ asset('assets/prism/themes/prism-holi-theme.css') }}">
+        </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -106,7 +106,7 @@
 
     @livewireScripts
     <script>
-        window.livewire.on("dataStore", () => {
+        window.addEventListener("dataStore", () => {
             $("#tambahDataModal").modal("hide");
             $("#ubahDataModal").modal("hide");
         });
@@ -124,6 +124,13 @@
             window.scrollTo(5, 75);
         };
     </script>
+    
+    <script src="{{ asset('assets/prism/prism.js') }}"></script>
+    <script src="{{ asset('midragon/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    @stack('scripts')
+
     <script>
         document.addEventListener('livewire:load', function() {
             window.addEventListener('highlight-code', () => {
@@ -131,11 +138,6 @@
             });
         });
     </script>
-    <script src="{{ asset('assets/prism/prism.js') }}"></script>
-    <script src="{{ asset('midragon/select2/select2.full.min.js') }}"></script>
-    <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-    @stack('scripts')
 </body>
 
 </html>
