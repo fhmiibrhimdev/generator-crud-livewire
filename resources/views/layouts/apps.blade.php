@@ -12,10 +12,11 @@
     <link href="{{ asset('midragon/select2/select2.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/prism/themes/prism-holi-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/prism/themes/prism-duotone-dark.css') }}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-        </style>
+
+    </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -27,15 +28,13 @@
             <nav class="navbar navbar-expand-lg main-navbar">
                 <a href="#" class="navbar-brand sidebar-gone-hide">CRUD GENERATOR</a>
                 <div class="navbar-nav">
-                    <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i
-                            class="fas fa-bars"></i></a>
+                    <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
                 </div>
                 <form class="form-inline ml-auto">
                 </form>
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" data-toggle="dropdown"
-                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <div class="d-sm-none d-lg-inline-block">Hi, Fahmi Ibrahim</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -52,8 +51,7 @@
                             <div class="dropdown-divider"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <a href="{{ route('logout') }}" class="dropdown-item has-icon"
-                                    onclick="event.preventDefault();
+                                <a href="{{ route('logout') }}" class="dropdown-item has-icon" onclick="event.preventDefault();
                                 this.closest('form').submit();">
                                     <i class="far fa-sign-out-alt"></i> Logout
                                 </a>
@@ -110,6 +108,7 @@
             $("#tambahDataModal").modal("hide");
             $("#ubahDataModal").modal("hide");
         });
+
     </script>
     <script src="{{ asset('midragon/select2/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
@@ -120,11 +119,12 @@
     <script src="{{ asset('vendor/livewire-alert/livewire-alert.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
     <script>
-        window.onbeforeunload = function() {
+        window.onbeforeunload = function () {
             window.scrollTo(5, 75);
         };
+
     </script>
-    
+
     <script src="{{ asset('assets/prism/prism.js') }}"></script>
     <script src="{{ asset('midragon/select2/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
@@ -132,11 +132,12 @@
     @stack('scripts')
 
     <script>
-        document.addEventListener('livewire:load', function() {
+        document.addEventListener('livewire:load', function () {
             window.addEventListener('highlight-code', () => {
                 Prism.highlightAll();
             });
         });
+
     </script>
 </body>
 

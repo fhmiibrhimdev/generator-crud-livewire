@@ -119,8 +119,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-bash" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $commandSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $commandSyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -135,8 +135,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $routeWebSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $routeWebSyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -147,8 +147,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $routeApiSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $routeApiSyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -163,8 +163,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $modelSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $modelSyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -178,8 +178,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $migrationSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $migrationSyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -194,8 +194,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $seederSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $seederSyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -206,8 +206,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $dbSeederSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $dbSeederSyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -222,8 +222,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $controllerLivewireSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $controllerLivewireSyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -238,8 +238,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-php" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $controllerAPISyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $controllerAPISyntax }}</code>
                     </pre>
                 </div>
                 @endif
@@ -255,8 +255,8 @@
 
                 @else
                 <div wire:ignore.self>
-                    <pre>
-                        <code class="language-html" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $viewSyntax }}</code>
+                    <pre class="language-css">
+                        <code class="language-css" data-prismjs-copy="Copy" style="tab-size: 4;">{{ $viewSyntax }}</code>
                     </pre>
                 </div>
                 @endif

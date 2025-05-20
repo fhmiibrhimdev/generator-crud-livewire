@@ -15,10 +15,14 @@
                             <button class="btn btn-primary mt-3" onclick="beautifyCode()">Beautify</button>
                             <div class="mt-3">
                                 <h2 class="tw-text-lg">Output</h2>
-                                <pre class="mt-3"><code class="language-html" id="output" data-prismjs-copy="Copy" style="tab-size: 4;"></code></pre>
+                                <pre class="mt-3">
+                                    <code class="language-html" id="output" data-prismjs-copy="Copy" style="tab-size: 4;"></code>
+                                </pre>
                             </div>
 
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
+                            <script
+                                src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js">
+                            </script>
                             <script>
                                 function beautifyCode() {
                                     const input = document.getElementById('input').value;
@@ -33,6 +37,7 @@
                                     const output = html_beautify(input, options);
                                     document.getElementById('output').textContent = output;
                                 }
+
                             </script>
                         </div>
                     </div>
