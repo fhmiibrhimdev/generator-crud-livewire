@@ -1,66 +1,95 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Generator CRUD Livewire
 
-## About Laravel
+Project ini adalah aplikasi web berbasis **Laravel 11** dan **Livewire 3** yang dirancang untuk mempermudah pembuatan dan pengelolaan data (CRUD) dengan antarmuka yang reaktif dan modern. Dilengkapi dengan manajemen role (RBAC) menggunakan Laratrust dan utilitas tambahan seperti Code Beautifier.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   **Autentikasi & Otorisasi**: Sistem login aman dengan pembagian hak akses menggunakan **Laratrust**.
+    -   **Admin**: Akses penuh ke modul manajemen (Kategori, Blog, Mahasiswa).
+    -   **User**: Akses terbatas sesuai izin.
+    -   **Developer**: Akses khusus pengembang.
+-   **CRUD Modules**: Contoh implementasi CRUD real-time menggunakan Livewire:
+    -   **Kategori**: Manajemen kategori konten.
+    -   **Blog**: Manajemen artikel blog.
+    -   **Mahasiswa**: Manajemen data mahasiswa.
+-   **Code Beautifier**: Tools untuk merapikan kode (HTML & Code snippets).
+-   **Profile Management**: Fitur update profil pengguna.
+-   **Tech Stack**:
+    -   Laravel 11
+    -   Livewire 3.5
+    -   TailwindCSS (via Vite)
+    -   Laratrust 8.3
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠 Persyaratan Sistem
 
-## Learning Laravel
+Pastikan server atau lingkungan lokal Anda memiliki:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   PHP >= 8.2
+-   Composer
+-   Node.js & NPM
+-   Database (MySQL/MariaDB/SQLite)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 📦 Instalasi
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Ikuti langkah-langkah berikut untuk menjalankan project di komputer lokal Anda:
 
-## Laravel Sponsors
+1.  **Clone Repository**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    ```bash
+    git clone https://github.com/username/generator-crud-livewire.git
+    cd generator-crud-livewire
+    ```
 
-### Premium Partners
+2.  **Install Dependensi PHP**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    ```bash
+    composer install
+    ```
 
-## Contributing
+3.  **Install Dependensi Frontend**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    ```bash
+    npm install && npm run build
+    ```
 
-## Code of Conduct
+4.  **Konfigurasi Environment**
+    Salin file `.env.example` menjadi `.env`:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    ```bash
+    cp .env.example .env
+    ```
 
-## Security Vulnerabilities
+    Atur konfigurasi database di file `.env`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5.  **Generate Key Aplikasi**
 
-## License
+    ```bash
+    php artisan key:generate
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6.  **Migrasi Database & Seeding**
+    Jalankan migrasi untuk membuat tabel dan data awal (role/user default):
+
+    ```bash
+    php artisan migrate --seed
+    ```
+
+7.  **Jalankan Aplikasi**
+    ```bash
+    php artisan serve
+    ```
+    Buka `http://localhost:8000` di browser Anda.
+
+## 📝 Penggunaan
+
+Silakan login menggunakan akun yang telah dibuat saat seeding (cek `database/seeders` jika tersedia informasi akun default, biasanya `admin@example.com` / `password`).
+
+## 🤝 Kontribusi
+
+Kontribusi sangat diterima! Silakan fork repository ini lalu buat Pull Request untuk perubahan yang Anda sarankan.
+
+## 📄 Lisensi
+
+Project ini dilisensikan di bawah [MIT license](https://opensource.org/licenses/MIT).

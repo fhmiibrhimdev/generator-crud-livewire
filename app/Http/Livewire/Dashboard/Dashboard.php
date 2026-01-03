@@ -599,15 +599,15 @@ class BlogController extends Controller
                     <div class='search-column'>
                         <p>Search: </p><input type='search' wire:model.live.debounce.750ms='searchTerm' id='search-data' placeholder='Search here...' class='form-control'>
                     </div>
-                    <div class='table-responsive tw-max-h-96'>
-                        <table>
+                    <div class='table-responsive'>
+                        <table class='tw-table-auto tw-w-full'>
                             <thead class='tw-sticky tw-top-0'>
                                 <tr class='tw-text-gray-700'>
-                                    <th width='6%' class='text-center'>No</th>
+                                    <th width='6%' class='text-center tw-whitespace-nowrap'>No</th>
 " . implode("\n", array_map(function ($row) {
-                return "                                    <th>$row[judul]</th>";
+                return "                                    <th class='tw-whitespace-nowrap'>$row[judul]</th>";
             }, $this->rows)) . "
-                                    <th class='text-center'><i class='fas fa-cog'></i></th>
+                                    <th class='text-center tw-whitespace-nowrap'><i class='fas fa-cog'></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -646,16 +646,16 @@ class BlogController extends Controller
     </section>
 
     <div class='modal fade' wire:ignore.self id='formDataModal' aria-labelledby='formDataModalLabel' aria-hidden='true'>
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class='modal-header'>
+        <div class='modal-dialog tw-w-full tw-m-0 sm:tw-w-auto sm:tw-m-[1.75rem_auto]'>
+            <div class='modal-content tw-rounded-none lg:tw-rounded-md'>
+                <div class='modal-header tw-px-4 lg:tw-px-6'>
                     <h5 class='modal-title' id='formDataModalLabel'>{{ \$isEditing ? 'Edit Data' : 'Add Data' }}</h5>
                     <button type='button' wire:click='cancel()' class='close' data-dismiss='modal' aria-label='Close'>
                         <span aria-hidden='true'>&times;</span>
                     </button>
                 </div>
                 <form>
-                    <div class='modal-body'>
+                    <div class='modal-body tw-px-4 lg:tw-px-6'>
 ";
         foreach ($this->rows as $index => $row) {
 
